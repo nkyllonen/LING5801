@@ -1,0 +1,76 @@
+##############################################################################################
+#
+# FINITE-STATE TRANSDUCER FOR ENGLISH REGULAR VERB PARSING/GENERATION:
+#
+##############################################################################################
+
+define Con [b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|x|w|z] ;
+
+define Vowel [a|e|i|o|u] ;
+
+!define DoublingCs [b|g|m|n|p|r|t|v] ;
+
+
+##############################################################################################
+# BUILD LEXICAL TRANSDUCER
+
+## Regular verb class:
+
+define RegVerbs [ {walk} |
+       		  {try} |
+		  {fry} |
+		  {impeach} |
+		  {goose} |
+		  {sway} |
+		  {tab} |
+		  {tip} |
+		  {picnic} ] ;
+
+
+## Feature tags:
+
+! Verb tab
+
+! Present tense, 3rd person singular
+
+! Past tense
+
+! Past participle
+
+! Present participle
+
+! Plain form
+
+## Lexical transducer:
+
+## Uncomment to puch LexT onto stack.
+!push LexT
+
+############################################################################################## 
+# RULE TRANSDUCERS:
+#
+! E-insertion
+
+
+! y-Replacement
+
+
+! eDeletion
+
+! c-Doubling
+
+
+# "Cleaning up": remove stem and word boundary markers.
+
+define StemBoundary %^ -> 0 ;
+define WordBoundary %# -> 0 ;
+
+
+# Compose rule transducers:
+
+
+##############################################################################################
+
+# Compose lexical- and rule-transducers; push onto stack;
+
+!push MorphParser

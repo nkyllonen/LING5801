@@ -1,0 +1,83 @@
+######################################################################
+#
+# FINITE-STATE TRANSDUCER FOR ENGLISH NOUN PARSING/GENERATION:
+#
+######################################################################
+
+define Con [b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|x|w|z] ;
+define Vowel [a|e|i|o|u] ;
+
+######################################################################
+# BUILD LEXICAL TRANSDUCER
+
+!Noun class sublexicons:
+define RegularNouns [ {fox} | 
+		      {cat} | 
+                      {aardvark} | 
+                      {thrush} | 
+		      {finch} | 
+                      {dog} | 
+                      {fly} | 
+                      {bay} | 
+                      {fry} ] ;
+
+
+define IrregSingNouns [ {goose} | {sheep} | {mouse} | {ox} ] ;
+
+define IrregPlurNouns [ g o:e o:e s e | s h e e p | m o:i u:c s:e e:0 
+		      |  [ {ox} .x. {oxen} ]  ] ;
+
+
+!Morphological features: noun and number tags:
+
+define NounTag %+N:0 ;
+
+define Sing %+Sg:%# ;
+
+define Plural %+Pl .x. %^ s %# ;
+
+
+!Lexical transducer (cf. Fig. 3.13 in Jurafsky and Martin/slides):
+
+define LexT  [ RegularNouns NounTag [ Sing | Plural ] |
+               IrregSingNouns NounTag Sing |
+	       IrregPlurNouns NounTag %+Pl:%#] ;
+
+
+
+!Uncomment to push LexT onto stack.
+!push LexT
+
+######################################################################
+#!RULE TRANSDUCERS:
+
+! E-insertion
+
+define eInsertion [..] -> e || [ s | z | x | s h | c h ] %^ _ s ;
+ 
+! yReplacment
+
+define yReplacement [ y -> i e || Con _ %^ [ s | e d ]  ] ;
+
+! eDeletion
+
+define eDeletion [ e -> 0 || _ %^ Vowel ] ;
+
+! Remove morpheme and word boundary markers.
+
+define StemBoundary %^ -> 0 ;
+define WordBoundary %# -> 0 ;
+
+
+!Compose rule transducers:
+define RuleT eInsertion .o. yReplacement .o. eDeletion .o. StemBoundary 
+		        .o. WordBoundary ;
+			
+
+
+######################################################################
+!Compose lexical and rule-transducers; push onto stack;
+
+define MorphNounParser LexT .o. RuleT ;
+!push MorphParser
+
