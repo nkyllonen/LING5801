@@ -26,18 +26,26 @@ define RegVerbs [ {walk} |
 		  {tip} |
 		  {picnic} ] ;
 
+# can do the same as above if you have a separate file with each of the above verbs in it
+#read text VerbRoots.wordlist;
+#define RegVerbs
 
 ## Feature tags:
 
 ! Verb tab
+define Verb "+V":0 ;
 
 ! Present tense, 3rd person singular
+define ThirdSg "+Pres+3sp" .x. %^ s ^# ;
 
 ! Past tense
+define Past "+Past" .x. %^ e d %# ;
 
 ! Past participle
+define PastPart "+PastPart" .x. %^ e d %# ;
 
 ! Present participle
+define PresPart "+PresPart" .x. %^ i n g %# ;
 
 ! Plain form
 
@@ -53,9 +61,10 @@ define RegVerbs [ {walk} |
 
 
 ! y-Replacement
+define yReplacement [ y -> i e || Con _ %^ [ s | e d ] ] ;
 
-
-! eDeletion
+! eDeletion (remove e at the end of a stem if it's after a vowel)
+define eDeletion [ e -> 0 || _ %^ Vowel ] ;
 
 ! c-Doubling
 

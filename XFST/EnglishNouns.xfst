@@ -30,18 +30,18 @@ define IrregPlurNouns [ g o:e o:e s e | s h e e p | m o:i u:c s:e e:0
 
 !Morphological features: noun and number tags:
 
-define NounTag %+N:0 ;
+define NounTag %+N:0 ; # need to escape to use the literal + (use %)
 
-define Sing %+Sg:%# ;
+define Sing %+Sg:%# ;  # map to literal hastag --> end of word boundary symbol
 
-define Plural %+Pl .x. %^ s %# ;
+define Plural %+Pl .x. %^ s %# ;  # useful to have boundary symbols, but not necessary
 
 
 !Lexical transducer (cf. Fig. 3.13 in Jurafsky and Martin/slides):
-
+# models to morphotactics
 define LexT  [ RegularNouns NounTag [ Sing | Plural ] |
                IrregSingNouns NounTag Sing |
-	       IrregPlurNouns NounTag %+Pl:%#] ;
+	       IrregPlurNouns NounTag %+Pl:%#] ;  # irregular plural, so can't use Plural
 
 
 
@@ -52,7 +52,7 @@ define LexT  [ RegularNouns NounTag [ Sing | Plural ] |
 #!RULE TRANSDUCERS:
 
 ! E-insertion
-
+# %^ = stem boundary
 define eInsertion [..] -> e || [ s | z | x | s h | c h ] %^ _ s ;
  
 ! yReplacment
@@ -61,10 +61,11 @@ define yReplacement [ y -> i e || Con _ %^ [ s | e d ]  ] ;
 
 ! eDeletion
 
+# don't actually need this?
 define eDeletion [ e -> 0 || _ %^ Vowel ] ;
 
 ! Remove morpheme and word boundary markers.
-
+# clean up these boundary markers
 define StemBoundary %^ -> 0 ;
 define WordBoundary %# -> 0 ;
 
@@ -72,7 +73,7 @@ define WordBoundary %# -> 0 ;
 !Compose rule transducers:
 define RuleT eInsertion .o. yReplacement .o. eDeletion .o. StemBoundary 
 		        .o. WordBoundary ;
-			
+# rule ordering matters! might feed (allow for) another rule or bleed (prevent) another rule
 
 
 ######################################################################
