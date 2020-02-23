@@ -1,0 +1,105 @@
+!######################################################################
+!#
+!# FINITE-STATE TRANSDUCER FOR ENGLISH REGULAR VERB PARSING/GENERATION:
+!#
+!##############################################################
+
+define Con [b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|x|w|z] ;
+
+define Vowel [a|e|i|o|u] ;
+
+define DoublingCs [b|g|m|n|p|r|t|v|d] ;
+
+!######################################################################
+!# BUILD LEXICAL TRANSDUCER
+
+
+## Verb class sublexicons:
+
+define RegVerbStem [ {walk} |
+       		     {try} |
+		     {fry} | 
+                     {impeach} |
+		     {goose} |
+		     {sway} |
+		     {beg} |
+                     {tip} |
+		     {tab} |
+		     {picnic} |
+		     {hem} |
+		     {pin} | 
+                     {spar} |
+		     {pit} |
+		     {rev} |
+		     {bud}] ;
+
+
+
+## Morphological features: noun and number tags:
+
+define Verb %+V:0 ;
+
+define ThirdSg  %+Pres%+3sg .x. %^ s %# ;
+
+define PresPart %+PresPart .x. %^ i n g %# ;
+
+define PastPart %+PastPart .x. %^ e d %# ;
+
+define Past %+Past .x. %^ e d %# ;
+
+
+
+## Lexical transducer:
+
+define VerbLex  [ RegVerbStem Verb [ ThirdSg | PresPart | PastPart | Past 
+                                             | %+Plain:0  ] ] ; 
+
+
+
+!######################################################################
+!# RULE TRANSDUCERS:
+!#
+
+# consDoubling
+define consDouble [ DoublingCs -> "^[" ... "^" 2 "^]" || Vowel _ %^ [i|e] ] ;
+
+# cDoubling 
+define cDoubling [ c -> c k || Vowel _ %^ [i|e] ];
+
+# eInsertion
+define eInsertion [..] -> e || [s | z | x | s h | c h ] %^ _ s ;
+ 
+# yReplacment
+define yReplacement [ y -> i e || Con _ %^ [ s | e d ]  ] ;
+
+# eDeletion
+define eDeletion [ e -> 0 || _ %^ Vowel ] ;
+
+
+# Remove morpheme and word boundary markers.
+
+define StemBoundary %^ -> 0 ;
+define WordBoundary %# -> 0 ;
+
+
+!## Compile-replace algorithm for consonant doubling
+
+read regex VerbLex .o. consDouble ;
+compile-replace lower
+
+define IntermediateLex
+
+
+# Compose rule transducers: 
+
+define RuleT eInsertion .o. yReplacement .o. eDeletion  .o. cDoubling
+                        .o. StemBoundary .o. WordBoundary ;
+
+
+
+
+######################################################################
+# Compose lexical and rule-transducers; push onto stack;
+
+define MorphVerbParser IntermediateLex .o. RuleT ;
+push MorphVerbParser
