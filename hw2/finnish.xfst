@@ -28,7 +28,7 @@ define Sing "+Sg":0 ;
 
 define Plural "+Pl" .x. I ;
 
-define Nominative "+Nom":0 ;
+define Nominative "+Nom":0 ; # this null is necessary otherwise "Nom" is output!
 
 define Partitive "+Part" .x. T a ;
 
@@ -45,15 +45,15 @@ define BiSyllStem [ {tikka} | {pappi} | {kukka} | {tutti} | {kauppa} |
                     {kuoppa} | {jalka} | {linko} | {sopu} | {kampa} |
                     {piispa} | {vahti} | {ilta} | {sota} ] ;
 
-!define 
+## RULE TRANSDUCERS ##
 
-# clean up boundary marker
-define WordBoundary %# -> 0 ;
+define MonoSyllPartitive [ T -> t || MonoSyllStem _ ] ;
+define BiSyllPartitive [ T -> 0 || BiSyllStem _] ;
 
-# compose RULE TRANSDUCER
-! define RuleT ... ;
+# compose final RULE TRANSDUCER
+define RuleT MonoSyllPartitive .o. BiSyllPartitive ;
 
 ### Push your final RE "FinnishNouns" onto the stack, ready for use.
-!define FinnishNouns LexT .o. RuleT ;
-define FinnishNouns LexT ;
+!define FinnishNouns LexT ;
+define FinnishNouns LexT .o. RuleT ;
 push FinnishNouns
