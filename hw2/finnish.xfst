@@ -12,7 +12,7 @@ define Vowel [a|e|i|o|u|I] ;
 define Consonant [b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z] ;
 
 ### Create an FST that contains the Finnish noun stems (see finnish_nouns.txt).
-read text finnish_stems
+read text finnish_stems.txt
 define RegNounStem
 
 ### Create an FST that relates underlying Number and Case values to
@@ -26,12 +26,11 @@ define RegNounStem
 # map to null since could end a word or attach to case
 define Sing "+Sg":0 ;
 
-define Plural "+Pl" .x. I %# ;
+define Plural "+Pl" .x. I ;
 
-# map to literal hashtag -- end of word boundary since cases end words
-define Nominative "+Nom" %# ;
+define Nominative "+Nom":0 ;
 
-define Partitive "+Part" .x. T a %# ;
+define Partitive "+Part" .x. T a ;
 
 # compose LEXICAL TRANSDUCER
 define LexT [ RegNounStem Sing Nominative | RegNounStem [ Sing | Plural ] Partitive ] ;
