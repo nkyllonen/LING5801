@@ -21,28 +21,40 @@ define RegNounStem
 ### +Part. In the end you should have an FST called FinnishNouns that
 ### relates forms like "maa+Pl+Part" to "maaITa".
 
-# map to null since could end a word or attach to case
-define Sing %+Sg:0 ;
+## FEATURE TAGS ##
 
-define Plural %+Pl:0 ;
+# map to null since could end a word or attach to case
+define Sing "+Sg":0 ;
+
+define Plural "+Pl" .x. I %# ;
 
 # map to literal hashtag -- end of word boundary since cases end words
-define Nominative %+Nom:%# ; 
+define Nominative "+Nom" %# ;
 
-define Partitive %+Part:## ;
+define Partitive "+Part" .x. T a %# ;
+
+# compose LEXICAL TRANSDUCER
+define LexT [ RegNounStem Sing Nominative | RegNounStem [ Sing | Plural ] Partitive ] ;
+
+### Implement rules for realizing underlying forms correctly and compose them in the correct order.
 
 # monosyllabic noun stems
-define MonoSyllStem [ {puu} | {maa} | {suo} ]
+define MonoSyllStem [ {puu} | {maa} | {suo} ] ;
 
 # bisyllabic noun stems # TODO: set to RegNounStem - (RegNounStem.intersection(MonosyllStem))
 define BiSyllStem [ {tikka} | {pappi} | {kukka} | {tutti} | {kauppa} |
                     {kuoppa} | {jalka} | {linko} | {sopu} | {kampa} |
-                    {piispa} | {vahti} | {ilta} | {sota} ]
+                    {piispa} | {vahti} | {ilta} | {sota} ] ;
 
-### Implement rules for realizing underlying forms correctly and compose them in the correct order.
+!define 
 
+# clean up boundary marker
+define WordBoundary %# -> 0 ;
 
+# compose RULE TRANSDUCER
+! define RuleT ... ;
 
-### Push your final RE "FinishNouns" onto the stack, ready for use.
-
-
+### Push your final RE "FinnishNouns" onto the stack, ready for use.
+!define FinnishNouns LexT .o. RuleT ;
+define FinnishNouns LexT ;
+push FinnishNouns
