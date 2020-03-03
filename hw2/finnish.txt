@@ -1,0 +1,26 @@
+### Here are regular expressions for classes of things like vowels and
+### consonants to use in later expressions.
+
+define Vowel [a|e|i|o|u|I] ;
+define Consonant [b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z] ;
+
+### Create an FST that contains the Finnish noun stems (see finnish_nouns.txt).
+
+
+### Create an FST that relates underlying Number and Case values to
+### their surface realizations and concatenate it with the FST for the
+### noun stems. Number values and +Sg, +Pl and Case values are +Nom,
+### +Part. In the end you should have an FST called FinnishNouns that
+### relates forms like "maa+Pl+Part" to "maaITa".
+
+
+
+
+
+### Implement rules for realizing underlying forms correctly and compose them in the correct order.
+
+
+
+### Push your final RE "FinishNouns" onto the stack, ready for use.
+
+
