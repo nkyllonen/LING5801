@@ -45,6 +45,8 @@ define BiSyllStem [ {tikka} | {pappi} | {kukka} | {tutti} | {kauppa} |
                     {kuoppa} | {jalka} | {linko} | {sopu} | {kampa} |
                     {piispa} | {vahti} | {ilta} | {sota} ] ;
 
+define RoundedSyllStem [{kukka} | {tutti} | {kuoppa} | {sopu} | {sota} ] ;
+
 ## RULE TRANSDUCERS ##
 
 define MonoSyllPartitive [ T -> t || MonoSyllStem (I) _ ] ;
@@ -53,15 +55,16 @@ define BiSyllPartitive [ T -> 0 || BiSyllStem (I) _ ] ;
 define OtherPlural [ I -> i ] ;
 define BetweenVowelsPlural [ i -> j || Vowel _ Vowel ] ; # this feels hacky....
 
-define VowelRounding [ a -> o || _ I ] ;
+define VowelRounding [ a -> o || \a _ I ] ; # don't round if there is an 'a' before
 define VowelLowering [ i -> e || _ I ] ;
-define VowelDropping [ a -> 0 || [ u | o ] + _ I ] ; # important to use Kleene plus
+!define VowelDropping [ a -> 0 || RoundedSyllStem _ I ] ;
+define VowelDropping [ a -> 0 || Consonant+ [ u | o ] [ Vowel | Consonant ]+ _ I ] ;
 define VowelShortening [ {uu} -> u , {aa} -> a , {ee} -> e ,
                         {ii} -> i, {oo} -> o , {uo} -> o , {ie} -> e || _ I] ;
 
 # compose final RULE TRANSDUCER
 define RuleT MonoSyllPartitive .o. BiSyllPartitive .o.
-            VowelLowering .o. VowelDropping .o. VowelShortening .o. VowelRounding .o.
+            VowelLowering .o. VowelDropping .o. VowelRounding .o. VowelShortening .o.
             OtherPlural .o. BetweenVowelsPlural ;
 
 ### Push your final RE "FinnishNouns" onto the stack, ready for use.
