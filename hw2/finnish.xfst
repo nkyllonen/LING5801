@@ -47,13 +47,23 @@ define BiSyllStem [ {tikka} | {pappi} | {kukka} | {tutti} | {kauppa} |
 
 ## RULE TRANSDUCERS ##
 
-define MonoSyllPartitive [ T -> t || MonoSyllStem _ ] ;
-define BiSyllPartitive [ T -> 0 || BiSyllStem _] ;
+define MonoSyllPartitive [ T -> t || MonoSyllStem (I) _ ] ;
+define BiSyllPartitive [ T -> 0 || BiSyllStem (I) _ ] ;
+
+define OtherPlural [ I -> i ] ;
+define BetweenVowelsPlural [ i -> j || Vowel _ Vowel ] ; # this feels hacky....
+
+define VowelRounding [ a -> o || _ I ] ;
+define VowelLowering [ i -> e || _ I ] ;
+define VowelDropping [ a -> 0 || [ u | o ] + _ I ] ; # important to use Kleene plus
+define VowelShortening [ {uu} -> u , {aa} -> a , {ee} -> e ,
+                        {ii} -> i, {oo} -> o , {uo} -> o , {ie} -> e || _ I] ;
 
 # compose final RULE TRANSDUCER
-define RuleT MonoSyllPartitive .o. BiSyllPartitive ;
+define RuleT MonoSyllPartitive .o. BiSyllPartitive .o.
+            VowelLowering .o. VowelDropping .o. VowelShortening .o. VowelRounding .o.
+            OtherPlural .o. BetweenVowelsPlural ;
 
 ### Push your final RE "FinnishNouns" onto the stack, ready for use.
-!define FinnishNouns LexT ;
 define FinnishNouns LexT .o. RuleT ;
 push FinnishNouns
