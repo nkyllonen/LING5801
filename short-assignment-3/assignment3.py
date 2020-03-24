@@ -6,6 +6,7 @@ Python Assignment 3
 3/24/2020
 '''
 # IMPORT STATEMENTS #
+import string
 import nltk
 from nltk.corpus import reuters
 import re
@@ -40,7 +41,8 @@ def q1():
     # convert list of lists into list of strings
     doc = []
     for sent in docs:
-        doc.append(" ".join(sent))
+        # case fold each sentence
+        doc.append(" ".join([ word.lower() for word in sent if word not in set(string.punctuation) ]))
     docs = doc
     #print(docs)
 
@@ -71,7 +73,7 @@ def q4(jaccardValues):
     # build regular expression
     regex = r'('
     for word in query.split(" "):
-        regex = regex + word + '|'
+        regex = regex + "\\b" + word + '\\b|' # \b for word boundaries
     regex = regex[:-1] + ')'
     #print(regex)
 
