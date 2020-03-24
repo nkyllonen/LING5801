@@ -1,0 +1,21 @@
+! Dictionary
+define Dictionary [ she : PPS |
+       		    promised : [ VBN | VBD ] |
+		    to : [ IN | TO ] |
+		    back : [ NN | RB | JJ | VB ] |
+		    the : AT |
+		    bill : [VB | NN ] 
+		    ] ;
+
+! Map word sequences to possible tag sequences:
+define Sequence [Dictionary " "]* Dictionary;
+
+! Filters
+define Filter1 ~$[PPS " " VBN];
+define Filter2 ~$[AT " " VB];
+
+define Filters Filter1 .o.
+       	       Filter2 ;
+
+! Compose
+!read regex Sequence .o. Filters ;
