@@ -44,11 +44,15 @@ patterns = [
         (r'\b(?:[Ww][Aa][Ss])\b', 'BEDZ'),              # verb 'to be' past tenst 1st/3rd sing
         (r'\b(?:[Aa][Mm])\b', 'BEM'),                   # verb 'to be' present tense 1st sing
         (r'\b(?:[Ii][Ss])\b', 'BEZ'),                   # verb 'to be' present tense 3rd sing
-        (r'\b(?:([Aa][Nn][Dd])|([Oo][Rr])|([Bb]ut)|([Pp]lus)|([Nn]*[Ee]ither)|([Nn]or)|([Yy]et)|([Mm]inus))\b','CC'),                                        # conjuctions, coordinating
+        # conjuctions, coordinating
+        (r'\b(?:([Aa][Nn][Dd])|([Oo][Rr])|([Bb]ut)|([Pp]lus)|([Nn]*[Ee]ither)|([Nn]or)|([Yy]et)|([Mm]inus))\b','CC'),
         (r'\b(?:[Bb][Ee]+[Nn])\b','BEN'),               # verb 'to be', past part
-        (r'\b(?:([Ff][Oo][Rr])|([Ii][Nn]([Tt][Oo])*)|([Oo]([Ff]|[Nn]|(ut)|(ver)))|([Bb]([Yy]|efore|etween))|((([Cc]onsider)|([Rr]egard)|([Aa]ccord)|([Ii]nclud))ing)|([Aa]((mong)|(gainst)|([Ss])|(fter)|([Tt])))|([Tt](([Oo])|(hrough)|(han)|(oward)))|([Ww]ith(out)*)|([Uu]((nder)|(pon)))|([Dd](uring|espite))|([Ss]ince)|([Pp]er)|([Ee]xcept))\b','IN'),          # prepositions 
-        (r'\b(?:([Nn](one|othing|obody|o-one|othin)|([Ss](omething|omeone))|([Aa](nyone|nybody|nything)))|([Ee]very(thing|body|one))|[Oo]ne)\b','PN'),      # pronoun, nominal
-        (r'\b(?:([Ii][Tt])|([Tt]*[Ss]*[Hh][Ee]+))\b','PPS'),    # pronoun, personal, nominative
+        # prepositions
+        (r'\b(?:([Ff][Oo][Rr])|([Ii][Nn]([Tt][Oo])*)|([Oo]([Ff]|[Nn]|(ut)|(ver)))|([Bb]([Yy]|efore|etween))|((([Cc]onsider)|([Rr]egard)|([Aa]ccord)|([Ii]nclud))ing)|([Aa]((mong)|(gainst)|([Ss])|(fter)|([Tt])))|([Tt](([Oo])|(hrough)|(han)|(oward)))|([Ww]ith(out)*)|([Uu]((nder)|(pon)))|([Dd](uring|espite))|([Ss]ince)|([Pp]er)|([Ee]xcept))\b','IN'),
+        # pronouns, nominal
+        (r'\b(?:([Nn](one|othing|obody|o-one|othin)|([Ss](omething|omeone))|([Aa](nyone|nybody|nything)))|([Ee]very(thing|body|one))|[Oo]ne)\b','PN'),
+        # pronouns, personal, nominative
+        (r'\b(?:([Ii][Tt])|([Tt]*[Ss]*[Hh][Ee]+))\b','PPS'),
 
         # original patterns
         (r'.*ing$', 'VBG'),				# gerunds
