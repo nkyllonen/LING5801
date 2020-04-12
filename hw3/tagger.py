@@ -27,8 +27,6 @@ def get_words(tagged_sentence):
     return [word for word, tag in tagged_sentence]
 
 
-
-
 # Part 1: Regular expression tagger
 
 # These are the patterns from the NLTK text. Add 10 additional patterns to
@@ -102,10 +100,18 @@ templates = [
 tt = nltk.BrillTaggerTrainer(regexp_tagger, templates, trace=3)
 brill_tagger = tt.train(train_data, max_rules=25)
 
-
 ## Part 3: Evaluation
-print("\nBrill_tagger accuracy with dev_data: {}".format(brill_tagger.evaluate(dev_data)))
+#print("\nBrill_tagger accuracy with dev_data: {}".format(brill_tagger.evaluate(dev_data)))
+print("\nRegexp_tagger accuracy with test_data: {}".format(regexp_tagger.evaluate(test_data)))
+print("Brill with REGEX tagger accuracy with test_data: {}\n".format(
+    brill_tagger.evaluate(test_data)))
 
+brill_tagger.print_template_statistics();
 
 ## A unigram baseline tagger:
-#unigram_tagger = nltk.UnigramTagger(train_data, backoff=nltk.DefaultTagger('NN'))
+unigram_tagger = nltk.UnigramTagger(train_data, backoff=nltk.DefaultTagger('NN'))
+brill_unigram = nltk.BrillTaggerTrainer(
+        unigram_tagger, templates, trace=3).train(train_data, max_rules=25)
+print("\nBrill with UNIGRAM tagger accuracy with test_data: {}".format(
+    brill_unigram.evaluate(test_data)))
+

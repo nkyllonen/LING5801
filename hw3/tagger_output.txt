@@ -1,0 +1,162 @@
+TBL train (fast) (seqs: 6858; tokens: 145883; tpls: 15; min score: 2; min acc: None)
+Finding initial useful rules...
+    Found 277376 useful rules.
+
+           B      |
+   S   F   r   O  |        Score = Fixed - Broken
+   c   i   o   t  |  R     Fixed = num tags changed incorrect -> correct
+   o   x   k   h  |  u     Broken = num tags changed correct -> incorrect
+   r   e   e   e  |  l     Other = num tags changed incorrect -> incorrect
+   e   d   n   r  |  e
+------------------+-------------------------------------------------------
+70547054   0  77  | NN->, if Word:,@[0]
+15031608 105 550  | NN->VB if Word:to@[-1]
+12291533 304 464  | VBZ->NNS if Pos:NN@[-3,-2,-1]
+11661706 540  17  | IN->TO if Pos:VB@[1]
+ 975 975   0   0  | NN->`` if Word:``@[0]
+ 964 964   0   0  | NN->'' if Word:''@[0]
+ 837 837   0 399  | NN->CS if Word:that@[0]
+ 73921581419 391  | VBD->VBN if Pos:NN@[-3,-2,-1]
+ 583 602  19 127  | IN->CS if Word:as@[0]
+ 576 576   0   2  | NNS->PP$ if Word:his@[0]
+ 566 566   0   2  | NN->BER if Word:are@[0]
+ 551 559   8   2  | NN->MD if Word:will@[0]
+ 594 627  33 579  | NN->VB if Pos:MD@[-2,-1]
+ 503 503   0   7  | NN->IN if Word:from@[0]
+ 481 481   0   0  | NNS->HVZ if Word:has@[0]
+ 461 461   0   1  | NNS->DT if Word:this@[0]
+ 453 453   0   0  | NN->. if Word:;@[0]
+ 433 433   0   1  | NN->-- if Word:--@[0]
+ 416 416   0   3  | NN->* if Word:not@[0]
+ 404 404   0   0  | NN->WPS if Word:who@[0]
+ 392 705 3131835  | NN->NP if Pos:,@[-1]
+ 369 375   6   9  | NN->NP if Word:Mrs.@[-2,-1]
+ 348 348   0   0  | NN->HV if Word:have@[0]
+ 323 323   0  24  | NN->VBD if Word:said@[0]
+ 311 311   0   0  | NN->BED if Word:were@[0]
+
+Regexp_tagger accuracy with test_data: 0.4909984639016897
+Brill with REGEX tagger accuracy with test_data: 0.6433179723502304
+
+TEMPLATE STATISTICS (TRAIN)  7 templates, 25 rules)
+TRAIN ( 145883 tokens) initial 74831 0.4870 final: 52600 0.6394 
+#ID | Score (train) |  #Rules     | Template
+--------------------------------------------
+013 | 16239   0.730 |  18   0.720 | Template(Word([0]))
+009 |  1968   0.089 |   2   0.080 | Template(Pos([-3, -2, -1]))
+006 |  1503   0.068 |   1   0.040 | Template(Word([-1]))
+011 |  1166   0.052 |   1   0.040 | Template(Pos([1]))
+003 |   594   0.027 |   1   0.040 | Template(Pos([-2, -1]))
+000 |   392   0.018 |   1   0.040 | Template(Pos([-1]))
+012 |   369   0.017 |   1   0.040 | Template(Word([-2, -1]))
+
+UNUSED TEMPLATES (8)
+001 Template(Pos([-1]),Word([0]))
+002 Template(Pos([-2]),Pos([-1]))
+004 Template(Word([0]),Word([-1]))
+005 Template(Pos([-2]),Word([0]))
+007 Template(Pos([-1]),Word([-1]))
+008 Template(Pos([-1]),Pos([0]))
+010 Template(Pos([-2]),Pos([1]))
+014 Template(Word([0]),Word([-1]),Pos([-1]))
+
+TBL train (fast) (seqs: 6858; tokens: 145883; tpls: 15; min score: 2; min acc: None)
+Finding initial useful rules...
+    Found 277376 useful rules.
+
+           B      |
+   S   F   r   O  |        Score = Fixed - Broken
+   c   i   o   t  |  R     Fixed = num tags changed incorrect -> correct
+   o   x   k   h  |  u     Broken = num tags changed correct -> incorrect
+   r   e   e   e  |  l     Other = num tags changed incorrect -> incorrect
+   e   d   n   r  |  e
+------------------+-------------------------------------------------------
+70547054   0  77  | NN->, if Word:,@[0]
+15031608 105 550  | NN->VB if Word:to@[-1]
+12291533 304 464  | VBZ->NNS if Pos:NN@[-3,-2,-1]
+11661706 540  17  | IN->TO if Pos:VB@[1]
+ 975 975   0   0  | NN->`` if Word:``@[0]
+ 964 964   0   0  | NN->'' if Word:''@[0]
+ 837 837   0 399  | NN->CS if Word:that@[0]
+ 73921581419 391  | VBD->VBN if Pos:NN@[-3,-2,-1]
+ 583 602  19 127  | IN->CS if Word:as@[0]
+ 576 576   0   2  | NNS->PP$ if Word:his@[0]
+ 566 566   0   2  | NN->BER if Word:are@[0]
+ 551 559   8   2  | NN->MD if Word:will@[0]
+ 594 627  33 579  | NN->VB if Pos:MD@[-2,-1]
+ 503 503   0   7  | NN->IN if Word:from@[0]
+ 481 481   0   0  | NNS->HVZ if Word:has@[0]
+ 461 461   0   1  | NNS->DT if Word:this@[0]
+ 453 453   0   0  | NN->. if Word:;@[0]
+ 433 433   0   1  | NN->-- if Word:--@[0]
+ 416 416   0   3  | NN->* if Word:not@[0]
+ 404 404   0   0  | NN->WPS if Word:who@[0]
+ 392 705 3131835  | NN->NP if Pos:,@[-1]
+ 369 375   6   9  | NN->NP if Word:Mrs.@[-2,-1]
+ 348 348   0   0  | NN->HV if Word:have@[0]
+ 323 323   0  24  | NN->VBD if Word:said@[0]
+ 311 311   0   0  | NN->BED if Word:were@[0]
+
+Regexp_tagger accuracy with test_data: 0.4909984639016897
+Brill with REGEX tagger accuracy with test_data: 0.6433179723502304
+
+TEMPLATE STATISTICS (TRAIN)  7 templates, 25 rules)
+TRAIN ( 145883 tokens) initial 74831 0.4870 final: 52600 0.6394 
+#ID | Score (train) |  #Rules     | Template
+--------------------------------------------
+013 | 16239   0.730 |  18   0.720 | Template(Word([0]))
+009 |  1968   0.089 |   2   0.080 | Template(Pos([-3, -2, -1]))
+006 |  1503   0.068 |   1   0.040 | Template(Word([-1]))
+011 |  1166   0.052 |   1   0.040 | Template(Pos([1]))
+003 |   594   0.027 |   1   0.040 | Template(Pos([-2, -1]))
+000 |   392   0.018 |   1   0.040 | Template(Pos([-1]))
+012 |   369   0.017 |   1   0.040 | Template(Word([-2, -1]))
+
+UNUSED TEMPLATES (8)
+001 Template(Pos([-1]),Word([0]))
+002 Template(Pos([-2]),Pos([-1]))
+004 Template(Word([0]),Word([-1]))
+005 Template(Pos([-2]),Word([0]))
+007 Template(Pos([-1]),Word([-1]))
+008 Template(Pos([-1]),Pos([0]))
+010 Template(Pos([-2]),Pos([1]))
+014 Template(Word([0]),Word([-1]),Pos([-1]))
+
+TBL train (fast) (seqs: 6858; tokens: 145883; tpls: 15; min score: 2; min acc: None)
+Finding initial useful rules...
+    Found 71568 useful rules.
+
+           B      |
+   S   F   r   O  |        Score = Fixed - Broken
+   c   i   o   t  |  R     Fixed = num tags changed incorrect -> correct
+   o   x   k   h  |  u     Broken = num tags changed correct -> incorrect
+   r   e   e   e  |  l     Other = num tags changed incorrect -> incorrect
+   e   d   n   r  |  e
+------------------+-------------------------------------------------------
+ 519 519   0  35  | TO->IN if Pos:AT@[1]
+ 179 286 107   9  | NN->VB if Pos:TO@[-1]
+ 143 143   0   2  | TO->IN if Pos:NP@[1]
+ 124 157  33   2  | IN->IN-TL if Pos:NN-TL@[-1] & Word:of@[0]
+ 109 115   6   3  | NN->VB if Pos:MD@[-1]
+ 105 159  54   9  | VB->NN if Pos:AT@[-2,-1]
+  91  92   1   0  | VBD->VBN if Pos:HVZ@[-3,-2,-1]
+  90 174  84   7  | NP->NP-TL if Pos:NN-TL@[1]
+  86  90   4   0  | VBN->VBD if Pos:NP@[-1]
+  75  84   9   0  | PPS->PPO if Pos:VB@[-1] & Word:it@[0]
+  73  77   4   0  | VBN->VBD if Pos:PPS@[-1]
+  71  71   0   0  | TO->IN if Pos:CD@[1]
+  68  68   0   2  | TO->IN if Pos:NNS@[1]
+  67  72   5   0  | VBD->VBN if Pos:BEDZ@[-2,-1]
+  63  68   5   0  | CS->DT if Pos:IN@[-1] & Word:that@[0]
+  62  63   1   0  | VBD->VBN if Pos:BE@[-2,-1]
+  59  59   0   0  | TO->IN if Pos:PP$@[1]
+  58  78  20   1  | NP->NP-TL if Pos:JJ-TL@[-1]
+  53  57   4   0  | VBD->VBN if Pos:HVD@[-3,-2,-1]
+  51  52   1   0  | VBN->VBD if Pos:PPSS@[-1]
+  44  44   0   1  | NN->VB if Pos:PPSS@[-1]
+  44  54  10   0  | PPS->PPO if Pos:IN@[-1] & Word:it@[0]
+  43  43   0   0  | VBD->VBN if Pos:HV@[-3,-2,-1]
+  40  40   0   0  | TO->IN if Pos:PPO@[1]
+  39  40   1   1  | RB->AP if Pos:AT@[-1] & Word:only@[0]
+
+Brill with UNIGRAM tagger accuracy with test_data: 0.890568356374808
