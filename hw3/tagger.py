@@ -54,7 +54,7 @@ patterns = [
         # pronouns, personal, nominative
         (r'\b(?:([Ii][Tt])|([Tt]*[Ss]*[Hh][Ee]+))\b','PPS'),
 
-        # original patterns
+        ## original patterns ##
         (r'.*ing$', 'VBG'),				# gerunds
 	(r'.*ed$', 'VBD'),				# simple past
 	(r'.*es$', 'VBZ'),				# 3rd singular present
@@ -67,24 +67,44 @@ patterns = [
 
 regexp_tagger = nltk.RegexpTagger(patterns)
 
+#print("\nRegexp_tagger accuracy with dev_data: {}".format(regexp_tagger.evaluate(dev_data)))
+#print("Regexp_tagger accuracy with train_data: {}".format(regexp_tagger.evaluate(train_data)))
 
 
 ## Part 2: Transformation-based learning and tagging
 
 # Define rule templates
-#templates = [
-#            Template(Pos([-1])),              # previous  POS tag
-#            Template(Pos([-1]), Word([0]))    # previous POS tag + current word
-#             ]
-#
-#
-## Train a error-driven, transformation-based tagger
-#tt = nltk.BrillTaggerTrainer(regexp_tagger, templates, trace=3)
-#brill_tagger = tt.train(train_data, max_rules=25)
+templates = [
+            ## original templates ##
+            Template(Pos([-1])),                # previous  POS tag
+            Template(Pos([-1]), Word([0])),     # previous POS tag + current word
+            
+            ## my new templates ##
+            Template(Pos([-2]), Pos([-1])),     # previous two POS tags (conjunctive)   (0%)
+            Template(Pos([-2, -1])),            # previous two POS tags (disjunctive)   (<2%)
+            Template(Word([0]), Word([-1])),    # current word + previous word          (0%)
+            Template(Pos([-2]), Word([0])),     # prev prev POS tag + current word      (<1%)
+            Template(Word([-1])),               # previous word                         (<0.1%)
+            Template(Pos([-1]), Word([-1])),    # previous POS tag + previous word      (0%)
+            #Template(Word([0]), Word([1]))      # current word + next word              (<0%)
+            Template(Pos([-1]), Pos([0])),      # previous POS tag + current POS tag    (0%)
+            #Template(Pos([-2]))                 # prev prev POS tag                     (<0%)
+            Template(Pos([-3,-2,-1])),          # previous POS tags (disjunctive)       (<1%)
+            Template(Pos([-2]), Pos([1])),      # previous POS tag + next POS tag       (<1%)
+            Template(Pos([1])),                 # next POS tag                          (<0%)
+            Template(Word([-2,-1])),            # previous two words (disjunctive)      (<0.1%)
+            Template(Word([0])),                # current word                          (<3%)
+            Template(Word([0]), Word([-1]), Pos([-1])) # current + prev word + prev POS (0%)
+             ]
+
+
+# Train a error-driven, transformation-based tagger
+tt = nltk.BrillTaggerTrainer(regexp_tagger, templates, trace=3)
+brill_tagger = tt.train(train_data, max_rules=25)
 
 
 ## Part 3: Evaluation
-print("Regexp_tagger accuracy with dev_data: {}".format(regexp_tagger.evaluate(dev_data)))
+print("\nBrill_tagger accuracy with dev_data: {}".format(brill_tagger.evaluate(dev_data)))
 
 
 ## A unigram baseline tagger:
