@@ -1,10 +1,15 @@
 import nltk, re
 from nltk.tag.brill import Template, Pos, Word
 from nltk.corpus import brown
+from pprint import pprint
 
 # My computer requires that I download items from nltk
 # I think it might have to do with my version of Python?
 nltk.download('brown')
+
+## GLOBALS ##
+MAX_RULES = 25
+RUN_UNIGRAM = True
 
 ## Training and testing data:
 data = brown.tagged_sents(categories=['news', 'editorial'])
@@ -61,12 +66,9 @@ patterns = [
 	(r'.*s$', 'NNS'),				# plural nouns
 	(r'^-?[0-9]+(.[0-9]+)?$', 'CD'),                # cadinal numbers
 	(r'.*', 'NN'), 				        # nouns (default)
-	]
+]
 
 regexp_tagger = nltk.RegexpTagger(patterns)
-
-#print("\nRegexp_tagger accuracy with dev_data: {}".format(regexp_tagger.evaluate(dev_data)))
-#print("Regexp_tagger accuracy with train_data: {}".format(regexp_tagger.evaluate(train_data)))
 
 
 ## Part 2: Transformation-based learning and tagging
@@ -93,25 +95,39 @@ templates = [
             Template(Word([-2,-1])),            # previous two words (disjunctive)      (<0.1%)
             Template(Word([0])),                # current word                          (<3%)
             Template(Word([0]), Word([-1]), Pos([-1])) # current + prev word + prev POS (0%)
-             ]
+]
 
 
 # Train a error-driven, transformation-based tagger
 tt = nltk.BrillTaggerTrainer(regexp_tagger, templates, trace=3)
-brill_tagger = tt.train(train_data, max_rules=25)
+brill_tagger = tt.train(train_data, max_rules=MAX_RULES)
 
 ## Part 3: Evaluation
-#print("\nBrill_tagger accuracy with dev_data: {}".format(brill_tagger.evaluate(dev_data)))
-print("\nRegexp_tagger accuracy with test_data: {}".format(regexp_tagger.evaluate(test_data)))
+print("\nRegexp_tagger accuracy with dev_data: {}".format(regexp_tagger.evaluate(dev_data)))
+print("Regexp_tagger accuracy with train_data: {}".format(regexp_tagger.evaluate(train_data)))
+print("Regexp_tagger accuracy with test_data: {}".format(regexp_tagger.evaluate(test_data)))
+print("-"*80)
+print("\nBrill_tagger accuracy with dev_data: {}".format(brill_tagger.evaluate(dev_data)))
+print("Brill_tagger accuracy with train_data: {}".format(brill_tagger.evaluate(train_data)))
 print("Brill with REGEX tagger accuracy with test_data: {}\n".format(
     brill_tagger.evaluate(test_data)))
 
-brill_tagger.print_template_statistics();
+pprint(brill_tagger.rules())
+print("\n" + "-"*80 + "\n")
+brill_tagger.print_template_statistics()
 
 ## A unigram baseline tagger:
-unigram_tagger = nltk.UnigramTagger(train_data, backoff=nltk.DefaultTagger('NN'))
-brill_unigram = nltk.BrillTaggerTrainer(
-        unigram_tagger, templates, trace=3).train(train_data, max_rules=25)
-print("\nBrill with UNIGRAM tagger accuracy with test_data: {}".format(
-    brill_unigram.evaluate(test_data)))
+if (RUN_UNIGRAM):
+    unigram_tagger = nltk.UnigramTagger(train_data, backoff=nltk.DefaultTagger('NN'))
+    brill_unigram = nltk.BrillTaggerTrainer(
+            unigram_tagger, templates, trace=3).train(train_data, max_rules=MAX_RULES)
+    print("\nBrill with UNIGRAM tagger accuracy with dev_data: {}".format(
+        brill_unigram.evaluate(dev_data)))
+    print("Brill with UNIGRAM tagger accuracy with train_data: {}".format(
+        brill_unigram.evaluate(train_data)))
+    print("Brill with UNIGRAM tagger accuracy with test_data: {}\n".format(
+        brill_unigram.evaluate(test_data)))
 
+    pprint(brill_unigram.rules())
+    print("\n" + "-"*80 + "\n")
+    brill_unigram.print_template_statistics()
